@@ -5,7 +5,10 @@ from queue import Queue
 outq = Queue()
 inq = Queue()
 
-start_servers(outq, inq)
+def stop_servers():
+    return False
+
+start_servers(outq, inq, stop_servers)
 
 while 1:
     pass

@@ -5,7 +5,7 @@
 
 
 import swift as sw
-import websockets
+import websockets.asyncio.server
 import asyncio
 from threading import Thread
 import webbrowser as wb
@@ -288,24 +288,25 @@ class SwiftSocket:
         self.loop = asyncio.new_event_loop()
         asyncio.set_event_loop(self.loop)
 
-        started = False
+        async def start_sever():
+            port = 53000
+            while port < 62000:
+                try:
+                    async with websockets.asyncio.server.serve(self.serve, "localhost", port) as server:
+                        self.inq.put(port)
+                        await server.serve_forever()
 
-        port = 53000
-        while not started and port < 62000:
-            try:
-                start_server = websockets.serve(self.serve, "localhost", port)
-                self.loop.run_until_complete(start_server)
-                started = True
-            except OSError:
-                port += 1
+                except OSError:
+                    port += 1
 
-        self.inq.put(port)
+        self.loop.create_task(start_sever())
         self.loop.run_forever()
+
 
     async def register(self, websocket):
         self.USERS.add(websocket)
 
-    async def serve(self, websocket, path):
+    async def serve(self, websocket):
         # Initial connection handshake
         await self.register(websocket)
         recieved = await websocket.recv()
@@ -387,7 +388,7 @@ class SwiftServer:
                     self.path = "index.html"
                 elif self.path.startswith("/retrieve/"):
                     # print(f"Retrieving file: {self.path[10:]}")
-                    self.path = urllib.parse.unquote(self.path[9:])
+                    self.path = urllib.parse.unquote(self.path[10:])
                     self.send_file_via_real_path()
                     return
 
