@@ -11,7 +11,7 @@ authors = [
     { name = "Peter Corke", email = "rvc@petercorke.com" },
 ]
 
-dependencies = ["numpy>=1.17.4", "spatialgeometry>=1.0.0", "websockets"]
+dependencies = ["numpy>=2.0", "spatialgeometry>=1.0.0", "websockets"]
 
 license = { file = "LICENSE" }
 
@@ -76,7 +76,7 @@ nb = ["ipython", "notebook"]
 
 [build-system]
 
-requires = ["setuptools", "oldest-supported-numpy"]
+requires = ["setuptools", "numpy>=2.0"]
 
 build-backend = "setuptools.build_meta"
 
