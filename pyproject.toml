@@ -76,14 +76,9 @@ nb = ["ipython", "notebook"]
 
 [build-system]
 
-requires = ["numpy>=2", "pybind11>=2.12", "hatchling"] #, "oldest-supported-numpy"]
-build-backend = "hatchling.build"
+requires = ["setuptools", "numpy>=2.0"]
 
-[tool.hatch.build.targets.wheel]
-only-include = ["swift"]
-
-[tool.hatch.build.targets.sdist]
-include = ["swift", "pyproject.toml", "README.*", "LICENSE*"]
+build-backend = "setuptools.build_meta"
 
 
 [tool.setuptools]
