@@ -75,16 +75,11 @@ vision = ["aiortc", "opencv-python"]
 nb = ["ipython", "notebook"]
 
 [build-system]
+requires = ["scikit-build-core", "numpy>=2.0"]
+build-backend = "scikit_build_core.build"
 
-requires = ["setuptools", "numpy>=2.0"]
-
-build-backend = "setuptools.build_meta"
-
-
-[tool.setuptools]
-
-packages = ["swift"]
-
+[tool.scikit-build]
+wheel.packages = ["swift"]   # package discovery under src/
 
 [tool.black]
 
